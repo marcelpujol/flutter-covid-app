@@ -4,10 +4,10 @@ class IncidenceByRegion {
   String date;
   String gender;
   String ageGroup;
-  String pcr;
-  String totalHospitalized;
-  String totalCritical;
-  String deads;
+  int pcr;
+  int totalHospitalized;
+  int totalCritical;
+  int deads;
 
   IncidenceByRegion({
     this.name,
@@ -27,9 +27,9 @@ class IncidenceByRegion {
     this.date = json['data'];
     this.gender = json['sexe'];
     this.ageGroup = json['grup_edat'];
-    this.pcr = json['pcr'];
-    this.totalHospitalized = json['ingressats_total'];
-    this.totalCritical = json['ingressats_critic'];
-    this.deads = json['exitus'];
+    this.pcr = int.parse(json['pcr']);
+    this.totalHospitalized = int.parse(json['ingressats_total']);
+    this.totalCritical = int.parse(json['ingressats_critic']);
+    this.deads = int.parse(json['exitus']);
   }
 }

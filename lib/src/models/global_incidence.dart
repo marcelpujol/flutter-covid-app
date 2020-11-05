@@ -16,11 +16,11 @@ class GlobalIncidence {
   });
 
   GlobalIncidence.fromJsonMap(Map<String, dynamic> json) {
-    this.dailyConfirmed = json['nous_casos_diaris_confirmats'];
-    this.dailyDeads = json['defuncions_di_ries'];
-    this.dailyRecovered = json['altes_di_ries'];
-    this.totalConfirmed = json['total_de_casos_confirmats'];
-    this.totalDeads = json['total_de_defuncions'];
-    this.totalRecovered = json['total_d_altes'];
+    this.dailyConfirmed = int.parse(json['nous_casos_diaris_confirmats']);
+    this.dailyDeads = int.parse(json['defuncions_di_ries']);
+    this.dailyRecovered = int.parse(json['altes_di_ries']);
+    this.totalConfirmed = int.parse(json['total_de_casos_confirmats']);
+    this.totalDeads = int.parse(json['total_de_defuncions']);
+    this.totalRecovered = int.parse(json['total_d_altes']);
   }
 }
