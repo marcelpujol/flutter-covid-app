@@ -13,20 +13,59 @@ class GlobalPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    incidenceByRegionProvider.getIncidenceByRegion()
-    .then((value) => {
-      print('byRegion: ' + value.toString())
-    });
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('CAT-COVID')
+      ),
+      body: Container(
+        child: Column(
+          children: [
+            OutlineButton(
+              onPressed: () => {
+                incidenceByRegionProvider.getIncidenceByRegion()
+                .then((value) {
+                  print(value.toString());
+                })
+              },
+              child: Text('By region call')
+            ),
+            OutlineButton(
+              onPressed: () => {
+                globalIncidenceProvider.getGlobalIncidence()
+                .then((value) {
+                  print(value.toString());
+                })
+              },
+              child: Text('Global call')
+            ),
+            OutlineButton(
+              onPressed: () => {
+                incidenceByTownProvider.getIncidenceByTown()
+                .then((value) {
+                  print(value.toString());
+                })
+              },
+              child: Text('By town call')
+            )
+          ]
+        )
+      ),
+    );
 
-    globalIncidenceProvider.getGlobalIncidence()
-    .then((value) => {
-      print('global: ' + value.toString())
-    });
+    // incidenceByRegionProvider.getIncidenceByRegion()
+    // .then((value) => {
+    //   print('byRegion: ' + value.toString())
+    // });
 
-    incidenceByTownProvider.getIncidenceByTown()
-    .then((value) => {
-      print('byTown: ' + value.toString())
-    });
+    // globalIncidenceProvider.getGlobalIncidence()
+    // .then((value) => {
+    //   print('global: ' + value.toString())
+    // });
+
+    // incidenceByTownProvider.getIncidenceByTown()
+    // .then((value) => {
+    //   print('byTown: ' + value.toString())
+    // });
 
     return Text('Hola');
   }
