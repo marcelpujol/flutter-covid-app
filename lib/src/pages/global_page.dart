@@ -1,10 +1,13 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_covid_app/src/widgets/my_grouped_bar_chart.widget.dart';
+import 'package:intl/intl.dart';
+
 
 import 'package:flutter_covid_app/src/providers/global_incidence.provider.dart';
 import 'package:flutter_covid_app/src/providers/incidence_by_region.provider.dart';
 import 'package:flutter_covid_app/src/providers/incidence_by_town.provider.dart';
+import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:flutter_covid_app/src/models/global_incidences.dart';
 
 class GlobalPage extends StatelessWidget {
   final incidenceByRegionProvider = new IncidenceByRegionProvider();
@@ -18,55 +21,84 @@ class GlobalPage extends StatelessWidget {
         title: Text('CAT-COVID')
       ),
       body: Container(
-        child: Column(
-          children: [
-            OutlineButton(
-              onPressed: () => {
-                incidenceByRegionProvider.getIncidenceByRegion()
-                .then((value) {
-                  print(value.toString());
-                })
-              },
-              child: Text('By region call')
-            ),
-            OutlineButton(
-              onPressed: () => {
-                globalIncidenceProvider.getGlobalIncidence()
-                .then((value) {
-                  print(value.toString());
-                })
-              },
-              child: Text('Global call')
-            ),
-            OutlineButton(
-              onPressed: () => {
-                incidenceByTownProvider.getIncidenceByTown()
-                .then((value) {
-                  print(value.toString());
-                })
-              },
-              child: Text('By town call')
-            )
-          ]
-        )
-      ),
+        padding: EdgeInsets.all(15),
+        child: _getGlobalChart(context)
+      )
     );
+  }
 
-    // incidenceByRegionProvider.getIncidenceByRegion()
-    // .then((value) => {
-    //   print('byRegion: ' + value.toString())
-    // });
+  Widget _getGlobalChart(BuildContext context) {
+    var _screenSize = MediaQuery.of(context).size;
 
-    // globalIncidenceProvider.getGlobalIncidence()
-    // .then((value) => {
-    //   print('global: ' + value.toString())
-    // });
+    return FutureBuilder(
+      future: globalIncidenceProvider.getGlobalIncidence(),
+      builder: (BuildContext context, AsyncSnapshot<GlobalIncidences> snapshot) {
+        if (snapshot.hasData) {
+          var chartSeries = _defineChartSeries(snapshot.data);
+          return _defineGlobalChart(chartSeries);
+        }
+        return Container(
+          height: _screenSize.height * 0.5,
+          child: Center(
+            child: CircularProgressIndicator()
+          )
+        );
+      }
+    );
+  }
 
-    // incidenceByTownProvider.getIncidenceByTown()
-    // .then((value) => {
-    //   print('byTown: ' + value.toString())
-    // });
+  List<MyBarChartSerie> _defineChartSeries(GlobalIncidences globalIncidences) {
+    var allSeries = new List<MyBarChartSerie>();
+    var confirmedData = new MyBarChartSerie('Confirmed', 0, new List<MyBarChartData>());
+    var deathsData = new MyBarChartSerie('Deaths', 0, new List<MyBarChartData>());
+    var recoveredData = new MyBarChartSerie('Recovered', 0, new List<MyBarChartData>());
 
-    return Text('Hola');
+    for (var incidence in globalIncidences.data) {
+      String date = new DateFormat('dd/MM/yy').format(incidence.date);
+      confirmedData.data.add(new MyBarChartData(
+        date, 
+        incidence.dailyConfirmed, 
+        charts.MaterialPalette.purple.shadeDefault
+      ));
+      confirmedData.totalSerie += incidence.dailyConfirmed; 
+      
+      recoveredData.data.add(new MyBarChartData(
+        date, 
+        incidence.dailyRecovered, 
+        charts.MaterialPalette.green.shadeDefault
+      ));
+      recoveredData.totalSerie += incidence.dailyRecovered;
+
+      deathsData.data.add(new MyBarChartData(
+        date, 
+        incidence.dailyDeads, 
+        charts.MaterialPalette.red.shadeDefault
+      ));
+      deathsData.totalSerie += incidence.dailyDeads;
+    }
+
+    allSeries.add(confirmedData);
+    allSeries.add(recoveredData);
+    allSeries.add(deathsData);
+    return allSeries;
+  }
+
+  Widget _defineGlobalChart(List<MyBarChartSerie> series) {
+    return Container(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Expanded(
+            flex: 8,
+            child: MyGroupedBarChart.createChart(series)
+          ),
+          Expanded(
+            flex: 2,
+            child: MyGroupedBarChart.getLegend(series),
+          )
+        ]
+      )
+    );
   }
 }
