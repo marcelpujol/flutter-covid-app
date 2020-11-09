@@ -32,9 +32,21 @@ class MyGroupedBarChart extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(series[index].serieId, style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 20)),
+              Text(series[index].serieId, 
+                style: TextStyle(
+                  color: Colors.white, 
+                  fontWeight: FontWeight.w600, 
+                  fontSize: 20
+                )
+              ),
               SizedBox(height: 10),
-              Text(series[index].totalSerie.toString(), style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 20))
+              Text(series[index].totalSerie.toString(), 
+                style: TextStyle(
+                  color: Colors.white, 
+                  fontWeight: FontWeight.w600, 
+                  fontSize: 20
+                  )
+              )
             ]
           )
         );

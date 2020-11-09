@@ -16,14 +16,9 @@ class GlobalPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('CAT-COVID')
-      ),
-      body: Container(
-        padding: EdgeInsets.all(15),
-        child: _getGlobalChart(context)
-      )
+    return Container(
+      padding: EdgeInsets.all(15),
+      child: _getGlobalChart(context)
     );
   }
 
