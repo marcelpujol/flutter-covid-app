@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_covid_app/src/models/town.dart';
 import 'package:flutter_covid_app/src/models/towns.dart';
 import 'package:flutter_covid_app/src/providers/town_list.provider.dart';
 
@@ -38,30 +39,35 @@ class TownsListPage extends StatelessWidget {
       shrinkWrap: true,
       crossAxisCount: 2,
       children: List.generate(towns.data.length, (index) {
-        return Card(
-          elevation: 4,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              FadeInImage(
-                height: 80,
-                placeholder: AssetImage('assets/img/default-image.png'), 
-                image: NetworkImage(towns.data[index].logo),
-                fit: BoxFit.cover
-              ),
-              Text(towns.data[index].name,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.black, 
-                  fontWeight: FontWeight.w600, 
-                  fontSize: 20
-                )
-              )
-            ]
-          )
-        );
+        return _renderTownItemList(towns.data[index]);
       }),
+    );
+  }
+
+  Widget _renderTownItemList(Town town) {
+    return Card(
+      elevation: 4,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          FadeInImage(
+            height: 80,
+            placeholder: AssetImage('assets/img/default-image.png'), 
+            image: NetworkImage(town.logo),
+            fit: BoxFit.cover
+          ),
+          SizedBox(height: 10),
+          Text(town.name,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.black, 
+              fontWeight: FontWeight.w600, 
+              fontSize: 20
+            )
+          )
+        ]
+      )
     );
   }
 }
