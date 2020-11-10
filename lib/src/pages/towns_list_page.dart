@@ -7,28 +7,61 @@ class TownsListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Container(
+      padding: EdgeInsets.all(15),
+      child: _getTownsList(context)
+    );
   }
 
 
-  Widget _getTownsList() {
+  Widget _getTownsList(BuildContext context) {
+    var _screenSize = MediaQuery.of(context).size;
+
     return FutureBuilder(
       future: townListProvider.getTownList(),
       builder: (BuildContext context, AsyncSnapshot<Towns> snapshot) {
         if (snapshot.hasData) {
           return _renderList(snapshot.data);
         }
-        else {
-          //TODO: do a loading
-        }
+        return Container(
+          height: _screenSize.height * 0.5,
+          child: Center(
+            child: CircularProgressIndicator()
+          )
+        );
       } 
     );
   }
 
   Widget _renderList(Towns towns) {
-    return ListView.separated(
-      itemBuilder: null, 
-      separatorBuilder: null, 
-      itemCount: null);
+    return GridView.count(
+      shrinkWrap: true,
+      crossAxisCount: 2,
+      children: List.generate(towns.data.length, (index) {
+        return Card(
+          elevation: 4,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              FadeInImage(
+                height: 80,
+                placeholder: AssetImage('assets/img/default-image.png'), 
+                image: NetworkImage(towns.data[index].logo),
+                fit: BoxFit.cover
+              ),
+              Text(towns.data[index].name,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.black, 
+                  fontWeight: FontWeight.w600, 
+                  fontSize: 20
+                )
+              )
+            ]
+          )
+        );
+      }),
+    );
   }
 }

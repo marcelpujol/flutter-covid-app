@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_covid_app/src/pages/global_page.dart';
+import 'package:flutter_covid_app/src/pages/towns_list_page.dart';
  
 void main() => runApp(MyApp());
  
@@ -32,7 +33,7 @@ class MyApp extends StatelessWidget {
           body: TabBarView(
             children: [
               GlobalPage(),
-              GlobalPage(),
+              TownsListPage(),
               GlobalPage(),
             ],
           ),

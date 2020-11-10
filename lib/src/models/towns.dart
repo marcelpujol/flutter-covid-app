@@ -1,4 +1,3 @@
-import 'package:flutter_covid_app/src/models/global_incidence.dart';
 import 'package:flutter_covid_app/src/models/town.dart';
 
 class Towns {
