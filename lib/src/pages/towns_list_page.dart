@@ -20,7 +20,7 @@ class TownsListPageState extends State<TownsListPage> {
   @override
   void initState() {
       super.initState();
-      _towns = townListProvider.getTownList(null);
+      _towns = townListProvider.getTownList('');
   }
 
   @override
@@ -95,7 +95,7 @@ class TownsListPageState extends State<TownsListPage> {
   }
 
   Widget _renderTownItemList(Town town) {
-    return Card(
+    final _townCardItem = Card(
       elevation: 4,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -118,6 +118,13 @@ class TownsListPageState extends State<TownsListPage> {
           )
         ]
       )
+    );
+
+    return GestureDetector(
+      child: _townCardItem,
+      onTap: ()  {
+        (Navigator.pushNamed(context, 'town-page', arguments: town));
+      }
     );
   }
 }
