@@ -1,25 +1,75 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
+
 import 'package:flutter_covid_app/src/models/town.dart';
 import 'package:flutter_covid_app/src/models/towns.dart';
 import 'package:flutter_covid_app/src/providers/town_list.provider.dart';
 
-class TownsListPage extends StatelessWidget {
+class TownsListPage extends StatefulWidget {
+  @override
+  TownsListPageState createState() {
+    return new TownsListPageState();
+  }
+}
+
+class TownsListPageState extends State<TownsListPage> {
   final townListProvider = new TownListProvider();
+  Timer _debounce;
+  Future<Towns> _towns;
+
+  @override
+  void initState() {
+      super.initState();
+      _towns = townListProvider.getTownList(null);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(15),
-      child: _getTownsList(context)
+      child: Column(
+        children: [
+          Expanded(
+            flex: 1,
+            child: _getSearch(context)
+          ),
+          Expanded(
+            flex: 9,
+            child: _getTownsList(context, null)
+          )
+        ],
+      )
     );
   }
 
+  Widget _getSearch(BuildContext context) {
+    return Container(
+      child: TextField(
+        decoration: InputDecoration(
+          prefixIcon: Icon(Icons.search),
+          hintText: 'Search a town here...'
+        ),
+        onChanged: (String searchTerm)  {
+         _onSearchChanged(context, searchTerm);
+        },
+      )
+    );
+  }
 
-  Widget _getTownsList(BuildContext context) {
+  _onSearchChanged(BuildContext context, String searchTerm) {
+    if (_debounce?.isActive ?? false) _debounce.cancel();
+      _debounce = Timer(const Duration(milliseconds: 500), () {
+        setState(() {
+          _towns = townListProvider.getTownList(searchTerm);
+        });
+      });
+  }
+
+  Widget _getTownsList(BuildContext context, String searchTerm) {
     var _screenSize = MediaQuery.of(context).size;
 
     return FutureBuilder(
-      future: townListProvider.getTownList(),
+      future: _towns,
       builder: (BuildContext context, AsyncSnapshot<Towns> snapshot) {
         if (snapshot.hasData) {
           return _renderList(snapshot.data);
