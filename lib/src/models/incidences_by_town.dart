@@ -1,7 +1,7 @@
 import 'package:flutter_covid_app/src/models/incidence_by_town.dart';
 
 class IncidencesByTown {
-  List<IncidenceByTown> incidencesByTown = new List();
+  List<IncidenceByTown> data = new List();
 
   IncidencesByTown();
 
@@ -9,7 +9,7 @@ class IncidencesByTown {
     if (jsonList == null) return;
     for (var item in jsonList) {
       final incidenceByRegion = new IncidenceByTown.fromJsonMap(item);
-      incidencesByTown.add(incidenceByRegion);
+      data.add(incidenceByRegion);
     }
   }
 }

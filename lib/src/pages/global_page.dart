@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_covid_app/src/models/global_incidence.dart';
 import 'package:flutter_covid_app/src/widgets/my_grouped_bar_chart.widget.dart';
 import 'package:intl/intl.dart';
 
-
 import 'package:flutter_covid_app/src/providers/global_incidence.provider.dart';
 import 'package:flutter_covid_app/src/providers/incidence_by_region.provider.dart';
-import 'package:flutter_covid_app/src/providers/incidence_by_town.provider.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter_covid_app/src/models/global_incidences.dart';
 
 class GlobalPage extends StatelessWidget {
   final incidenceByRegionProvider = new IncidenceByRegionProvider();
   final globalIncidenceProvider = new GlobalIncidenceProvider();
-  final incidenceByTownProvider = new IncidenceByTownProvider();
 
   @override
   Widget build(BuildContext context) {
@@ -43,12 +41,12 @@ class GlobalPage extends StatelessWidget {
   }
 
   List<MyBarChartSerie> _defineChartSeries(GlobalIncidences globalIncidences) {
-    var allSeries = new List<MyBarChartSerie>();
-    var confirmedData = new MyBarChartSerie('Confirmed', 0, new List<MyBarChartData>());
-    var deathsData = new MyBarChartSerie('Deaths', 0, new List<MyBarChartData>());
-    var recoveredData = new MyBarChartSerie('Recovered', 0, new List<MyBarChartData>());
+    List<MyBarChartSerie> allSeries = new List<MyBarChartSerie>();
+    MyBarChartSerie confirmedData = new MyBarChartSerie('Confirmed', 0, new List<MyBarChartData>());
+    MyBarChartSerie deathsData = new MyBarChartSerie('Deaths', 0, new List<MyBarChartData>());
+    MyBarChartSerie recoveredData = new MyBarChartSerie('Recovered', 0, new List<MyBarChartData>());
 
-    for (var incidence in globalIncidences.data) {
+    for (GlobalIncidence incidence in globalIncidences.data) {
       String date = new DateFormat('dd/MM/yy').format(incidence.date);
       confirmedData.data.add(new MyBarChartData(
         date, 

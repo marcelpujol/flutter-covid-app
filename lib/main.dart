@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_covid_app/src/pages/global_page.dart';
 import 'package:flutter_covid_app/src/pages/town_page.dart';
 import 'package:flutter_covid_app/src/pages/towns_list_page.dart';
+import './src/constants/constants.dart' as Constants;
  
 void main() => runApp(MyApp());
  
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
               children: [
                 Icon(Icons.coronavirus),
                 SizedBox(width: 10),
-                Text('CAT-COVID')
+                Text(Constants.APP_NAME)
               ],
             )
           ),
