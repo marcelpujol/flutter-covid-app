@@ -83,7 +83,7 @@ class GlobalPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Expanded(
-            flex: 8,
+            flex: 6,
             child: MyGroupedBarChart.createChart(series)
           ),
           Expanded(

@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
 
@@ -22,32 +23,37 @@ class MyGroupedBarChart extends StatelessWidget {
       children: List.generate(3, (index) {
         return Card(
           elevation: 4,
-          color: Color.fromARGB(
-            series[index].data[0].color.a, 
-            series[index].data[0].color.r, 
-            series[index].data[0].color.g,
-            series[index].data[0].color.b
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(series[index].serieId, 
-                style: TextStyle(
-                  color: Colors.white, 
-                  fontWeight: FontWeight.w600, 
-                  fontSize: 20
-                )
-              ),
-              SizedBox(height: 10),
-              Text(series[index].totalSerie.toString(), 
-                style: TextStyle(
-                  color: Colors.white, 
-                  fontWeight: FontWeight.w600, 
-                  fontSize: 20
+          color: Color.fromRGBO(35, 37, 47, 1.0),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                AutoSizeText(series[index].serieId,
+                  wrapWords: false, 
+                  style: TextStyle(
+                    color: Color.fromARGB(
+                      series[index].data[0].color.a, 
+                      series[index].data[0].color.r, 
+                      series[index].data[0].color.g,
+                      series[index].data[0].color.b
+                    ), 
+                    fontWeight: FontWeight.bold, 
+                    fontSize: 14
                   )
-              )
-            ]
+                ),
+                SizedBox(height: 10),
+                AutoSizeText(series[index].totalSerie.toString(),
+                  wrapWords: false,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w400, 
+                    color: Colors.white, 
+                    fontSize: 14
+                    )
+                )
+              ]
+            ),
           )
         );
       })

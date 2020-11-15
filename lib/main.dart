@@ -18,10 +18,14 @@ class MyApp extends StatelessWidget {
     
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      darkTheme: ThemeData.dark(),
       home: DefaultTabController(
         length: 3,
         child: Scaffold(
+          backgroundColor: Color.fromRGBO(25, 27, 37, 1.0),
           appBar: AppBar(
+            backgroundColor: Color.fromRGBO(25, 27, 37, 1.0),
+            elevation: 0,
             bottom: _getTabs(), 
             title: Row(
               crossAxisAlignment: CrossAxisAlignment.center,

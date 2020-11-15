@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
@@ -46,8 +47,12 @@ class TownsListPageState extends State<TownsListPage> {
     return Container(
       child: TextField(
         decoration: InputDecoration(
-          prefixIcon: Icon(Icons.search),
-          hintText: 'Search a town here...'
+          prefixIcon: Icon(Icons.search, color: Colors.white60,),
+          hintText: 'Search a town here...',
+          hintStyle: TextStyle(
+            color: Colors.white60,
+            fontWeight: FontWeight.w300
+          )
         ),
         onChanged: (String searchTerm)  {
          _onSearchChanged(context, searchTerm);
@@ -96,27 +101,32 @@ class TownsListPageState extends State<TownsListPage> {
 
   Widget _renderTownItemList(Town town) {
     final _townCardItem = Card(
+      color: Color.fromRGBO(35, 37, 47, 1.0),
       elevation: 4,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          FadeInImage(
-            height: 80,
-            placeholder: AssetImage('assets/img/default-image.png'), 
-            image: NetworkImage(town.logo),
-            fit: BoxFit.cover
-          ),
-          SizedBox(height: 10),
-          Text(town.name,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: Colors.black, 
-              fontWeight: FontWeight.w600, 
-              fontSize: 20
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            FadeInImage(
+              height: 80,
+              placeholder: AssetImage('assets/img/default-image.png'), 
+              image: NetworkImage(town.logo),
+              fit: BoxFit.cover
+            ),
+            SizedBox(height: 10),
+            AutoSizeText(town.name,
+              wrapWords: false,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.white, 
+                fontWeight: FontWeight.w300, 
+                fontSize: 16
+              )
             )
-          )
-        ]
+          ]
+        ),
       )
     );
 
