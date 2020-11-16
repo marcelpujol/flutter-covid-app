@@ -65,7 +65,24 @@ class MyGroupedBarChart extends StatelessWidget {
     return new charts.BarChart(
       seriesList,
       animate: animate,
-      barGroupingType: charts.BarGroupingType.grouped
+      barGroupingType: charts.BarGroupingType.grouped,
+      domainAxis: charts.OrdinalAxisSpec(
+        renderSpec: charts.SmallTickRendererSpec(
+          labelStyle: new charts.TextStyleSpec(
+            color: charts.MaterialPalette.white,
+            fontSize: 13
+          ),
+          labelRotation: 60
+        ),
+      ),
+      primaryMeasureAxis: charts.NumericAxisSpec(
+        renderSpec: charts.GridlineRendererSpec(
+            labelStyle: new charts.TextStyleSpec(
+              color: charts.MaterialPalette.white,
+              fontSize: 13 
+            )          
+        )
+      )
     );
   }
 
