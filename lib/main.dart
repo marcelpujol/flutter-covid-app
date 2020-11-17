@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
         child: Scaffold(
           backgroundColor: Color.fromRGBO(25, 27, 37, 1.0),
           appBar: AppBar(
-            backgroundColor: Color.fromRGBO(25, 27, 37, 1.0),
+            backgroundColor: Color.fromRGBO(45, 47, 57, 1.0),
             elevation: 0,
             bottom: _getTabs(), 
             title: Row(

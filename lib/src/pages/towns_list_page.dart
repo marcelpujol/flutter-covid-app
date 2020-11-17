@@ -46,6 +46,7 @@ class TownsListPageState extends State<TownsListPage> {
   Widget _getSearch(BuildContext context) {
     return Container(
       child: TextField(
+        style: TextStyle(color: Colors.white),
         decoration: InputDecoration(
           prefixIcon: Icon(Icons.search, color: Colors.white60,),
           hintText: 'Search a town here...',
@@ -101,7 +102,7 @@ class TownsListPageState extends State<TownsListPage> {
 
   Widget _renderTownItemList(Town town) {
     final _townCardItem = Card(
-      color: Color.fromRGBO(35, 37, 47, 1.0),
+      color: Color.fromRGBO(45, 47, 57, 1.0),
       elevation: 4,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0),

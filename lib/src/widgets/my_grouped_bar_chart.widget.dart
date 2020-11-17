@@ -23,7 +23,7 @@ class MyGroupedBarChart extends StatelessWidget {
       children: List.generate(3, (index) {
         return Card(
           elevation: 4,
-          color: Color.fromRGBO(35, 37, 47, 1.0),
+          color: Color.fromRGBO(45, 47, 57, 1.0),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: Column(

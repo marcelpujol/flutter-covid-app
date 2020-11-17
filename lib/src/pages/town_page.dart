@@ -16,7 +16,9 @@ class TownPage extends StatelessWidget {
     final Town town = ModalRoute.of(context).settings.arguments;
     
     return Scaffold(
+      backgroundColor: Color.fromRGBO(25, 27, 37, 1.0),
       appBar: AppBar(
+        backgroundColor: Color.fromRGBO(45, 47, 57, 1.0),
         title: Text(town.name),
       ),
       body: Container(
