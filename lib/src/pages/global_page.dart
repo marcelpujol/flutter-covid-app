@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_covid_app/src/models/global_incidence.dart';
+import 'package:flutter_covid_app/src/widgets/my_date_picker.widget.dart';
 import 'package:flutter_covid_app/src/widgets/my_grouped_bar_chart.widget.dart';
 import 'package:intl/intl.dart';
 
@@ -15,28 +16,57 @@ class GlobalPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(15),
-      child: _getGlobalChart(context)
+     child: Column(
+       children: [
+         _getDates(context),
+         _getGlobalChart(context)
+       ]
+     ),
+    );
+  }
+
+  Widget _getDates(BuildContext context) {
+    var _screenSize = MediaQuery.of(context).size;
+    return Container(
+      height: (_screenSize.height - (kToolbarHeight + kTextTabBarHeight)) * 0.10,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            alignment: Alignment.center,
+            width: _screenSize.width / 2,
+            child: MyDatePicker(label: 'Initial Date', hint: 'Enter the initial date')
+          ),
+          Container(
+            alignment: Alignment.center,
+            width: _screenSize.width / 2,
+            child: MyDatePicker(label: 'Final Date', hint: 'Enter the final date')
+          )
+        ]
+      )
     );
   }
 
   Widget _getGlobalChart(BuildContext context) {
     var _screenSize = MediaQuery.of(context).size;
-
-    return FutureBuilder(
-      future: globalIncidenceProvider.getGlobalIncidence(),
-      builder: (BuildContext context, AsyncSnapshot<GlobalIncidences> snapshot) {
-        if (snapshot.hasData) {
-          var chartSeries = _defineChartSeries(snapshot.data);
-          return _defineGlobalChart(chartSeries);
+    return Container(
+      height: (_screenSize.height - (kToolbarHeight + kTextTabBarHeight)) * 0.8,
+      child: FutureBuilder(
+        future: globalIncidenceProvider.getGlobalIncidence(),
+        builder: (BuildContext context, AsyncSnapshot<GlobalIncidences> snapshot) {
+          if (snapshot.hasData) {
+            var chartSeries = _defineChartSeries(snapshot.data);
+            return _defineGlobalChart(chartSeries);
+          }
+          return Container(
+            height: _screenSize.height * 0.5,
+            child: Center(
+              child: CircularProgressIndicator()
+            )
+          );
         }
-        return Container(
-          height: _screenSize.height * 0.5,
-          child: Center(
-            child: CircularProgressIndicator()
-          )
-        );
-      }
+      )
     );
   }
 
