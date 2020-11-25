@@ -5,14 +5,42 @@ import 'package:flutter_covid_app/src/widgets/my_grouped_bar_chart.widget.dart';
 import 'package:intl/intl.dart';
 
 import 'package:flutter_covid_app/src/providers/global_incidence.provider.dart';
-import 'package:flutter_covid_app/src/providers/incidence_by_region.provider.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter_covid_app/src/models/global_incidences.dart';
 
-class GlobalPage extends StatelessWidget {
-  final incidenceByRegionProvider = new IncidenceByRegionProvider();
-  final globalIncidenceProvider = new GlobalIncidenceProvider();
+class GlobalPage extends StatefulWidget {
+  GlobalPageState createState() {
+    return new GlobalPageState();
+  }
+}
 
+
+class GlobalPageState extends State<GlobalPage> {
+  final globalIncidenceProvider = new GlobalIncidenceProvider();
+  Future<GlobalIncidences> _globalIncidence;
+  String _initialDate = '2020-04-01';
+  String _finalDate = '2020-04-07';
+
+  @override
+  void initState() {
+      super.initState();
+      _getInicidenceData();
+  }
+
+  onInitialDateChanged(String initialDate) {
+    setState(() {
+      _initialDate = initialDate;
+      _getInicidenceData();
+    });
+  }
+
+  onFinalDateChanged(String finalDate) {
+    setState(() {
+      _finalDate = finalDate;
+      _getInicidenceData();
+    });
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -23,6 +51,10 @@ class GlobalPage extends StatelessWidget {
        ]
      ),
     );
+  }
+
+  void _getInicidenceData() {
+    _globalIncidence = globalIncidenceProvider.getGlobalIncidence(_initialDate, _finalDate);
   }
 
   Widget _getDates(BuildContext context) {
@@ -36,12 +68,22 @@ class GlobalPage extends StatelessWidget {
           Container(
             alignment: Alignment.center,
             width: _screenSize.width / 2,
-            child: MyDatePicker(label: 'Initial Date', hint: 'Enter the initial date')
+            child: MyDatePicker(
+              label: 'Initial Date', 
+              hint: 'Enter the initial date', 
+              currentValue: _initialDate,
+              callbackFn: onInitialDateChanged
+            )
           ),
           Container(
             alignment: Alignment.center,
             width: _screenSize.width / 2,
-            child: MyDatePicker(label: 'Final Date', hint: 'Enter the final date')
+            child: MyDatePicker(
+              label: 'Final Date', 
+              hint: 'Enter the final date',
+              currentValue: _finalDate, 
+              callbackFn: onFinalDateChanged
+            )
           )
         ]
       )
@@ -53,18 +95,16 @@ class GlobalPage extends StatelessWidget {
     return Container(
       height: (_screenSize.height - (kToolbarHeight + kTextTabBarHeight)) * 0.8,
       child: FutureBuilder(
-        future: globalIncidenceProvider.getGlobalIncidence(),
+        future: _globalIncidence,
         builder: (BuildContext context, AsyncSnapshot<GlobalIncidences> snapshot) {
           if (snapshot.hasData) {
             var chartSeries = _defineChartSeries(snapshot.data);
             return _defineGlobalChart(chartSeries);
           }
-          return Container(
-            height: _screenSize.height * 0.5,
-            child: Center(
-              child: CircularProgressIndicator()
-            )
-          );
+          else if (snapshot.hasError) {
+            return _displayNoDataAvailable(_screenSize);
+          }
+          return _displayLoading(_screenSize);
         }
       )
     );
@@ -121,6 +161,32 @@ class GlobalPage extends StatelessWidget {
             child: MyGroupedBarChart.getLegend(series),
           )
         ]
+      )
+    );
+  }
+
+  Widget _displayLoading(Size screenSize) {
+    return Container(
+      height: screenSize.height * 0.5,
+      child: Center(
+        child: CircularProgressIndicator()
+      )
+    );
+  }
+
+  Widget _displayNoDataAvailable(Size screenSize) {
+    return Container(
+      height: screenSize.height * 0.5,
+      child: Center(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.sentiment_dissatisfied, color: Colors.white, size: 40.0,),
+            SizedBox(width: 10.0),
+            Text('No data available during these days.', style: TextStyle(color: Colors.white, fontSize: 15.0))
+          ],
+        ),
       )
     );
   }

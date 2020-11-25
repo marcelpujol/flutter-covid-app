@@ -7,8 +7,10 @@ import 'package:intl/intl.dart';
 class MyDatePicker extends StatefulWidget {
   final String label;
   final String hint;
+  final String currentValue;
+  final Function(String) callbackFn;
 
-  MyDatePicker({ this.label, this.hint });
+  MyDatePicker({ this.label, this.hint, this.currentValue, this.callbackFn });
 
   @override
   State<StatefulWidget> createState() {
@@ -19,12 +21,11 @@ class MyDatePicker extends StatefulWidget {
 
 class MyDatePickerState extends State<MyDatePicker> {
   //sets default value
-  DateTime selectedDate = DateTime.now();
   var ctrl = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    ctrl.text = DateFormat('dd/MM/yyyy').format(selectedDate);
+    ctrl.text = widget.currentValue;
     return TextFormField(
       controller: ctrl,
       style: TextStyle(color: Colors.white),
@@ -47,7 +48,7 @@ class MyDatePickerState extends State<MyDatePicker> {
   _buildDatePicker(BuildContext context) async {
     final DateTime picker = await showDatePicker(
       context: context, 
-      initialDate: selectedDate, 
+      initialDate: DateTime.parse(widget.currentValue), 
       firstDate: DateTime(2020), 
       lastDate: DateTime(2021),
       builder: (context, child) {
@@ -58,11 +59,15 @@ class MyDatePickerState extends State<MyDatePicker> {
       }
     );
 
-    if (picker != null && picker != selectedDate) {
+    if (picker != null && picker != DateTime.parse(widget.currentValue)) {
       setState(() {
-        selectedDate = picker;
-        ctrl.text = DateFormat('dd/MM/yyyy').format(selectedDate);
+        ctrl.text = DateFormat('dd/MM/yyyy').format(picker);
+        widget.callbackFn(_parseSelectedDate(picker));
       });
     }
+  }
+
+  _parseSelectedDate(DateTime selectedDate) {
+    return DateFormat('yyyy-MM-dd').format(selectedDate);
   }
 }
