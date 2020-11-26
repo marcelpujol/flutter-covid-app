@@ -30,17 +30,19 @@ class TownPageState extends State<TownPage> {
   }
 
   onInitialDateChanged(String initialDate) {
-    setState(() {
-      _initialDate = initialDate;
-      _getIncidenceData();
-    });
+    if (initialDate != null) {
+      setState(() {
+        _initialDate = initialDate;
+      });
+    }
   }
 
   onFinalDateChanged(String finalDate) {
-    setState(() {
-      _finalDate = finalDate;
-      _getIncidenceData();
-    });
+    if (finalDate != null) {
+      setState(() {
+        _finalDate = finalDate;
+      });
+    }
   }
 
   void _getIncidenceData() {

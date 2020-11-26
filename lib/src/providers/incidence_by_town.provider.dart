@@ -9,7 +9,7 @@ class IncidenceByTownProvider {
   
   Future<IncidencesByTown> getIncidenceByTown(String municipiCode, String initialDate, String finalDate) async {
     if (_areValidDates(DateTime.parse(initialDate), DateTime.parse(finalDate))) {
-      String params = "\$where=data >= '$initialDate' AND data <= '$finalDate'&municipicodi=$municipiCode";
+      String params = "\$where=data >= '${initialDate}T00:00:00.000' AND data <= '${finalDate}T00:00:00.000'&municipicodi=$municipiCode";
       final url = 'https://analisi.transparenciacatalunya.cat/resource/jj6z-iyrp.json?$params';
 
       final response = await http.get(url, headers: {
