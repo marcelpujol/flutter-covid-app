@@ -5,8 +5,9 @@ import 'package:flutter_covid_app/src/widgets/my_grouped_bar_chart.widget.dart';
 import 'package:intl/intl.dart';
 
 import 'package:flutter_covid_app/src/providers/global_incidence.provider.dart';
-import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter_covid_app/src/models/global_incidences.dart';
+import 'package:charts_flutter/flutter.dart' as charts; 
+import 'package:flutter_covid_app/src/constants/constants.dart' as Constants;
 
 class GlobalPage extends StatefulWidget {
   GlobalPageState createState() {
@@ -69,8 +70,8 @@ class GlobalPageState extends State<GlobalPage> {
             alignment: Alignment.center,
             width: _screenSize.width / 2,
             child: MyDatePicker(
-              label: 'Initial Date', 
-              hint: 'Enter the initial date', 
+              label: Constants.LABEL_INITIAL_DATE, 
+              hint: Constants.HINT_INITIAL_DATE, 
               currentValue: _initialDate,
               callbackFn: onInitialDateChanged
             )
@@ -79,8 +80,8 @@ class GlobalPageState extends State<GlobalPage> {
             alignment: Alignment.center,
             width: _screenSize.width / 2,
             child: MyDatePicker(
-              label: 'Final Date', 
-              hint: 'Enter the final date',
+              label: Constants.LABEL_FINAL_DATE, 
+              hint: Constants.HINT_FINAL_DATE,
               currentValue: _finalDate, 
               callbackFn: onFinalDateChanged
             )

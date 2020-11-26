@@ -4,6 +4,7 @@ import 'dart:async';
 
 import 'package:flutter_covid_app/src/models/town.dart';
 import 'package:flutter_covid_app/src/models/towns.dart';
+import 'package:flutter_covid_app/src/pages/town_page.dart';
 import 'package:flutter_covid_app/src/providers/town_list.provider.dart';
 
 class TownsListPage extends StatefulWidget {
@@ -134,7 +135,12 @@ class TownsListPageState extends State<TownsListPage> {
     return GestureDetector(
       child: _townCardItem,
       onTap: ()  {
-        (Navigator.pushNamed(context, 'town-page', arguments: town));
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => TownPage(town: town)
+          )
+        );
       }
     );
   }

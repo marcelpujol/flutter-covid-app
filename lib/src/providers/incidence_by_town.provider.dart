@@ -6,18 +6,24 @@ import 'dart:async';
 
 class IncidenceByTownProvider {
   String _apiKey = 'nNoXhDJ82fT90BsS-BWkkRAXORSqFbYpEWAB';
-  //String _urlBase = 'analisi.transparenciacatalunya.cat/resource/623z-r97q.json';
   
-  Future<IncidencesByTown> getIncidenceByTown(String municipiCode) async {
-    String params = "\$where=data >= '2020-04-01T00:00:00.000' AND data <= '2020-04-05T00:00:00.000'&municipicodi=$municipiCode";
-    final url = 'https://analisi.transparenciacatalunya.cat/resource/jj6z-iyrp.json?$params';
+  Future<IncidencesByTown> getIncidenceByTown(String municipiCode, String initialDate, String finalDate) async {
+    if (_areValidDates(DateTime.parse(initialDate), DateTime.parse(finalDate))) {
+      String params = "\$where=data >= '$initialDate' AND data <= '$finalDate'&municipicodi=$municipiCode";
+      final url = 'https://analisi.transparenciacatalunya.cat/resource/jj6z-iyrp.json?$params';
 
-    final response = await http.get(url, headers: {
-      'x-api-key': _apiKey
-    });
-    final decodedData = json.decode(response.body);
-    final incidences = new IncidencesByTown.fromJsonList(decodedData);
-    
-    return incidences;
+      final response = await http.get(url, headers: {
+        'x-api-key': _apiKey
+      });
+      final decodedData = json.decode(response.body);
+      final incidences = new IncidencesByTown.fromJsonList(decodedData);
+      
+      return incidences;
+    }
+    throw('Invalid dates');
+  }
+
+  bool _areValidDates(DateTime initialDate, DateTime finalDate) {
+    return initialDate.isBefore(finalDate) || initialDate.isAtSameMomentAs(finalDate);
   }
 }

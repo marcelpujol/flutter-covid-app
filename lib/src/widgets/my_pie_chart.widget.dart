@@ -20,7 +20,7 @@ class MyPieChart extends StatelessWidget {
     return GridView.count(
       shrinkWrap: true,
       crossAxisCount: 2,
-      childAspectRatio: MediaQuery.of(context).size.height / 700,
+      childAspectRatio: MediaQuery.of(context).size.height / 450,
       physics: new NeverScrollableScrollPhysics(),
       children: List.generate(segments.length, (index) {
         return Card(
