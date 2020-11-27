@@ -138,7 +138,10 @@ class TownsListPageState extends State<TownsListPage> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => TownPage(town: town)
+            builder: (context) {
+              FocusScope.of(context).unfocus();
+              return TownPage(town: town);
+            }
           )
         );
       }
