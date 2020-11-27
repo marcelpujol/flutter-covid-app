@@ -36,13 +36,16 @@ class MyApp extends StatelessWidget {
               ],
             )
           ),
-          body: TabBarView(
-            children: [
-              GlobalPage(),
-              TownsListPage(),
-              GlobalPage(),
-            ],
-          ),
+          body: Builder(
+            builder: (context) => 
+              TabBarView(
+                children: [
+                  GlobalPage(globalContext: context),
+                  TownsListPage(),
+                  GlobalPage(globalContext: context)
+                ],
+              )
+          )
         )
       )
     );

@@ -10,6 +10,10 @@ import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter_covid_app/src/constants/constants.dart' as Constants;
 
 class GlobalPage extends StatefulWidget {
+  final BuildContext globalContext;
+
+  GlobalPage({ @required this.globalContext });
+
   GlobalPageState createState() {
     return new GlobalPageState();
   }
@@ -45,6 +49,7 @@ class GlobalPageState extends State<GlobalPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
+     height: (MediaQuery.of(context).size.height - (kToolbarHeight)),
      child: Column(
        children: [
          _getDates(context),
@@ -61,7 +66,7 @@ class GlobalPageState extends State<GlobalPage> {
   Widget _getDates(BuildContext context) {
     var _screenSize = MediaQuery.of(context).size;
     return Container(
-      height: (_screenSize.height - (kToolbarHeight + kTextTabBarHeight)) * 0.10,
+      height: 60.0,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -94,7 +99,7 @@ class GlobalPageState extends State<GlobalPage> {
   Widget _getGlobalChart(BuildContext context) {
     var _screenSize = MediaQuery.of(context).size;
     return Container(
-      height: (_screenSize.height - (kToolbarHeight + kTextTabBarHeight)) * 0.8,
+      height: _screenSize.height - (Scaffold.of(widget.globalContext).appBarMaxHeight + 60.0),
       child: FutureBuilder(
         future: _globalIncidence,
         builder: (BuildContext context, AsyncSnapshot<GlobalIncidences> snapshot) {
@@ -148,17 +153,18 @@ class GlobalPageState extends State<GlobalPage> {
   }
 
   Widget _defineGlobalChart(List<MyBarChartSerie> series) {
+    var offset = (Scaffold.of(widget.globalContext).appBarMaxHeight + 60.0);
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Expanded(
-            flex: 8,
+          Container(
+            height: (MediaQuery.of(context).size.height - offset) * 0.7,
             child: MyGroupedBarChart.createChart(series)
           ),
-          Expanded(
-            flex: 2,
+          Container(
+            height: (MediaQuery.of(context).size.height - offset) * 0.3,
             child: MyGroupedBarChart.getLegend(series),
           )
         ]
