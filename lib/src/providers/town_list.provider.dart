@@ -18,6 +18,8 @@ class TownListProvider {
       _filteredTowns = towns.data.where((town) {
         return (town.name.toLowerCase().contains(searchTerm.toLowerCase()));
       }).toList();
+
+      if (_filteredTowns.length == 0) throw('No results');
       towns.data = _filteredTowns;
     }
 

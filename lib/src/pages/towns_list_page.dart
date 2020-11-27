@@ -27,7 +27,7 @@ class TownsListPageState extends State<TownsListPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    var _body = Container(
       padding: EdgeInsets.all(15),
       child: Column(
         children: [
@@ -41,6 +41,13 @@ class TownsListPageState extends State<TownsListPage> {
           )
         ],
       )
+    );
+
+    return GestureDetector(
+      child: _body,
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      }
     );
   }
 
@@ -80,6 +87,9 @@ class TownsListPageState extends State<TownsListPage> {
       builder: (BuildContext context, AsyncSnapshot<Towns> snapshot) {
         if (snapshot.hasData) {
           return _renderList(snapshot.data);
+        }
+        else if (snapshot.hasError) {
+          return _displayNoDataAvailable(_screenSize);
         }
         return Container(
           height: _screenSize.height * 0.5,
@@ -145,6 +155,23 @@ class TownsListPageState extends State<TownsListPage> {
           )
         );
       }
+    );
+  }
+
+  Widget _displayNoDataAvailable(Size screenSize) {
+    return Container(
+      height: screenSize.height * 0.5,
+      child: Center(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.sentiment_dissatisfied, color: Colors.white, size: 40.0,),
+            SizedBox(width: 10.0),
+            Text('No results found.', style: TextStyle(color: Colors.white, fontSize: 15.0))
+          ],
+        ),
+      )
     );
   }
 }
