@@ -30,19 +30,17 @@ class TownPageState extends State<TownPage> {
   }
 
   onInitialDateChanged(String initialDate) {
-    if (initialDate != null) {
-      setState(() {
-        _initialDate = initialDate;
-      });
-    }
+    setState(() {
+      _initialDate = initialDate;
+      _getIncidenceData();
+    });
   }
 
   onFinalDateChanged(String finalDate) {
-    if (finalDate != null) {
-      setState(() {
-        _finalDate = finalDate;
-      });
-    }
+    setState(() {
+      _finalDate = finalDate;
+      _getIncidenceData();
+    });
   }
 
   void _getIncidenceData() {
@@ -58,6 +56,7 @@ class TownPageState extends State<TownPage> {
         title: Text(widget.town.name),
       ),
       body: Container(
+        height: (MediaQuery.of(context).size.height - (kToolbarHeight)),
         child: Column(
           children: [
             _getDates(context),
@@ -71,6 +70,7 @@ class TownPageState extends State<TownPage> {
   Widget _getDates(BuildContext context) {
     var _screenSize = MediaQuery.of(context).size;
     return Container(
+      height: 60.0,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -103,7 +103,6 @@ class TownPageState extends State<TownPage> {
   Widget _getTownChart(BuildContext context, Town town) {
     var _screenSize = MediaQuery.of(context).size;
     return Container(
-      height: (_screenSize.height - kToolbarHeight) * 0.8,
       child: FutureBuilder(
         future: _incidencesByTown,
         builder: (BuildContext context, AsyncSnapshot<IncidencesByTown> snapshot) {
@@ -152,17 +151,19 @@ class TownPageState extends State<TownPage> {
   }
 
   Widget _defineTownChart(List<PieChartSegment> segments, BuildContext context) {
+    var offset = (Scaffold.of(context).appBarMaxHeight + 60.0);
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Expanded(
-            flex: 7,
-            child: MyPieChart.createChart(segments)
+          Container(
+            padding: EdgeInsets.only(right: 35.0, left: 35.0),
+            height: (MediaQuery.of(context).size.height - offset) / 2,
+            child: MyPieChart.createChart(segments), 
           ),
-          Expanded(
-            flex: 3,
+          Container(
+            height: (MediaQuery.of(context).size.height - offset) / 2,
             child: MyPieChart.getLegend(segments, context)
           )
         ]

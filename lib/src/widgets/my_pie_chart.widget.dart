@@ -17,17 +17,16 @@ class MyPieChart extends StatelessWidget {
   }
 
   static Widget getLegend(List<PieChartSegment> segments, BuildContext context) {
-    return GridView.count(
-      shrinkWrap: true,
-      crossAxisCount: 2,
-      childAspectRatio: MediaQuery.of(context).size.height / 450,
-      physics: new NeverScrollableScrollPhysics(),
-      children: List.generate(segments.length, (index) {
-        return Card(
-          elevation: 4,
-          color: Color.fromRGBO(45, 47, 57, 1.0),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+    return Center(
+      child: GridView.count(
+        shrinkWrap: true,
+        crossAxisCount: 2,
+        childAspectRatio: MediaQuery.of(context).size.height / (MediaQuery.of(context).size.height * 0.49),
+        physics: new NeverScrollableScrollPhysics(),
+        children: List.generate(segments.length, (index) {
+          return Card(
+            elevation: 4,
+            color: Color.fromRGBO(45, 47, 57, 1.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -56,9 +55,9 @@ class MyPieChart extends StatelessWidget {
                   )
               ]
             )
-          )
-        );
-      })
+          );
+        })
+      )
     );
   }
 
