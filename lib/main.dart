@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:flutter_covid_app/src/pages/global_page.dart';
+import 'package:flutter_covid_app/src/pages/prevention_info_list_page.dart';
 import 'package:flutter_covid_app/src/pages/towns_list_page.dart';
 import './src/constants/constants.dart' as Constants;
  
@@ -42,7 +43,7 @@ class MyApp extends StatelessWidget {
                 children: [
                   GlobalPage(globalContext: context),
                   TownsListPage(),
-                  GlobalPage(globalContext: context)
+                  PreventionInfoListPage()
                 ],
               )
           )
